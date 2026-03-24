@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: cloud-edge-platform
+  datasource:
+    url: jdbc:postgresql://localhost:15432/ai_demo?currentSchema=publi
+    username: ai_demo
+    password: demo123
+    driver-class-name: org.postgresql.Driver
+
+# Netty 长连接配置
+netty:
+  port: 9090
+  boss-threads: 1
+  worker-threads: 4
