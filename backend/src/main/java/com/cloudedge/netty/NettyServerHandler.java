@@ -65,6 +65,8 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<String> {
 
         String agentName = agentId;
         String host = ctx.channel().remoteAddress().toString();
+        String skillDescription = null;
+        String skillTags = null;
 
         if (message.getPayload() != null) {
             Map<String, Object> payload = objectMapper.convertValue(message.getPayload(), new TypeReference<>() {});
@@ -74,9 +76,15 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<String> {
             if (payload.containsKey("host")) {
                 host = String.valueOf(payload.get("host"));
             }
+            if (payload.containsKey("skillDescription")) {
+                skillDescription = String.valueOf(payload.get("skillDescription"));
+            }
+            if (payload.containsKey("skillTags")) {
+                skillTags = String.valueOf(payload.get("skillTags"));
+            }
         }
 
-        agentRegistry.registerViaLongConnection(agentId, agentName, channelId, host);
+        agentRegistry.registerViaLongConnection(agentId, agentName, channelId, host, skillDescription, skillTags);
         log.info("Agent registered via Netty: {} ({})", agentId, agentName);
     }
 

@@ -10,6 +10,18 @@ spring:
     password: demo123
     driver-class-name: org.postgresql.Driver
 
+# MyBatis-Plus 配置
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: isDeleted
+      logic-delete-value: true
+      logic-not-delete-value: false
+
 # Netty 长连接配置
 netty:
   port: 9090

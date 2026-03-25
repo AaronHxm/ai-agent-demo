@@ -32,7 +32,9 @@ public class AgentController {
                 request.getAgentId(),
                 request.getAgentName(),
                 request.getHost(),
-                request.getPort()
+                request.getPort(),
+                request.getSkillDescription(),
+                request.getSkillTags()
         );
         return ResponseEntity.ok(agent);
     }
@@ -110,5 +112,7 @@ public class AgentController {
         private String agentName;
         private String host;
         private Integer port;
+        private String skillDescription;
+        private String skillTags;
     }
 }
