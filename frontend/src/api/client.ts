@@ -1,28 +1,7 @@
 import axios from 'axios';
+import type { Agent, TaskProgress, RegisterForm } from '../types';
 
-const API_BASE = '/api';
-
-export interface Agent {
-  agentId: string;
-  agentName: string;
-  host: string;
-  port?: number;
-  status: 'ONLINE' | 'OFFLINE';
-  channelId?: string;
-  registerType: 'HTTP' | 'LONG_CONNECTION';
-  lastHeartbeat?: string;
-  onlineTime?: string;
-}
-
-export interface TaskProgress {
-  taskId: string;
-  agentId: string;
-  taskType: string;
-  status: string;
-  progress: number;
-  message?: string;
-  updateTime?: string;
-}
+const API_BASE = 'http://localhost:8080/api';
 
 export interface DashboardOverview {
   totalAgents: number;
@@ -34,12 +13,8 @@ export interface DashboardOverview {
   failedTaskRecords: number;
 }
 
-export interface RegisterRequest {
-  agentId: string;
-  agentName?: string;
-  host?: string;
-  port?: number;
-}
+// 重新导出类型供外部使用
+export type { Agent, TaskProgress };
 
 export const api = {
   getOverview: () => axios.get<DashboardOverview>(`${API_BASE}/dashboard/overview`),
@@ -48,7 +23,7 @@ export const api = {
   getAgent: (agentId: string) => axios.get<Agent>(`${API_BASE}/agents/${agentId}`),
   getProgress: (agentId: string) => axios.get<TaskProgress>(`${API_BASE}/agents/${agentId}/progress`),
   getProgressHistory: (agentId: string) => axios.get<TaskProgress[]>(`${API_BASE}/agents/${agentId}/progress/history`),
-  register: (data: RegisterRequest) => axios.post<Agent>(`${API_BASE}/agents/register`, data),
+  register: (data: RegisterForm) => axios.post<Agent>(`${API_BASE}/agents/register`, data),
   offline: (agentId: string) => axios.post(`${API_BASE}/agents/${agentId}/offline`),
   sendCommand: (agentId: string, command: Record<string, unknown>) =>
     axios.post<{ success: boolean; message: string }>(`${API_BASE}/agents/${agentId}/command`, command),
